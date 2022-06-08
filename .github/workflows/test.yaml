@@ -8,12 +8,14 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: action
         uses: g-rath/check-with-osv-detector@test
 
   test-version:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: action
         uses: g-rath/check-with-osv-detector@test
         with:
@@ -23,9 +25,10 @@ jobs:
   test-version-alt:
     runs-on: macos-latest
     steps:
+      - uses: actions/checkout@v3
       - name: action
         uses: g-rath/check-with-osv-detector@test
         with:
-          osv-detector-binary: osv-detector_0.5.0_darwin_arm64
+          osv-detector-binary: osv-detector_0.5.0_darwin_amd64
           flags: >-
             --version

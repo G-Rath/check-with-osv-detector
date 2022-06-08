@@ -1,0 +1,55 @@
+name: Check with osv-detector
+description: 'Installs and runs osv-detector against the given lockfiles or directories'
+inputs:
+  osv-detector-version:
+    description: |
+      The full version of the `osv-detector` to install. If omitted, the latest version is used.
+    required: false
+  osv-detector-binary:
+    description: |
+      The full name of the `osv-detector` binary that should be downloaded. If omitted, the linux amd64 binary is used.
+    required: false
+  flags:
+    description: |
+      Flags to be passed to the `osv-detector`
+    required: false
+  paths:
+    description: |
+      A list of lockfiles and directories to check with the `osv-detector`.
+    default: '.'
+    required: false
+runs:
+  using: composite
+  steps:
+    - name: Determine version
+      shell: bash
+      if: ${{ ! inputs.osv-detector-version }}
+      run: |
+        OSVDETECTOR_VERSION=$(curl -s "https://api.github.com/repos/G-Rath/osv-detector/releases/latest" | perl -nle'print substr($&, 1) while m#"tag_name": "\K[^"]*#g')
+        echo "OSVDETECTOR_VERSION=$OSVDETECTOR_VERSION" >> $GITHUB_ENV
+
+    - name: Determine binary
+      shell: bash
+      if: ${{ ! inputs.osv-detector-binary }}
+      run: |
+        OSVDETECTOR_BINARY="osv-detector_${OSVDETECTOR_VERSION}_linux_amd64"
+        echo "OSVDETECTOR_BINARY=$OSVDETECTOR_BINARY" >> $GITHUB_ENV
+      env:
+        OSVDETECTOR_VERSION: ${{ inputs.osv-detector-version || env.OSVDETECTOR_VERSION }}
+
+    - name: Install osv-detector
+      shell: bash
+      run: |
+        mkdir ~/osv-detector && cd ~/osv-detector
+        echo "Installing osv-detector v$OSVDETECTOR_VERSION ($OSVDETECTOR_BINARY)"
+        curl -fL https://github.com/G-Rath/osv-detector/releases/download/v$OSVDETECTOR_VERSION/$OSVDETECTOR_BINARY --output osv-detector
+        chmod +x osv-detector
+        sudo ln -s ~/osv-detector/osv-detector /usr/local/bin/osv-detector
+      env:
+        OSVDETECTOR_VERSION: ${{ inputs.osv-detector-version || env.OSVDETECTOR_VERSION }}
+        OSVDETECTOR_BINARY: ${{ inputs.osv-detector-binary || env.OSVDETECTOR_BINARY }}
+
+    - name: Check dependencies for security vulnerabilities
+      shell: bash
+      run: |
+        osv-detector ${{ inputs.flags }} ${{ inputs.paths }}

@@ -10,3 +10,22 @@ jobs:
     steps:
       - name: action
         uses: g-rath/check-with-osv-detector@test
+
+  test-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: action
+        uses: g-rath/check-with-osv-detector@test
+        with:
+          flags: >-
+            --version
+
+  test-version-alt:
+    runs-on: macos-latest
+    steps:
+      - name: action
+        uses: g-rath/check-with-osv-detector@test
+        with:
+          osv-detector-binary: osv-detector_0.5.0_darwin_arm64
+          flags: >-
+            --version

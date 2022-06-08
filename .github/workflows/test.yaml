@@ -15,23 +15,23 @@ jobs:
           flags: >-
             --ignore GHSA-vh95-rmgr-6w4m
 
-  test-version:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: action
-        uses: g-rath/check-with-osv-detector@test
-        with:
-          flags: >-
-            --version
-
-  test-version-alt:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: action
-        uses: g-rath/check-with-osv-detector@test
-        with:
-          osv-detector-binary: osv-detector_0.5.0_darwin_amd64
-          flags: >-
-            --version
+#  test-version:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#      - name: action
+#        uses: g-rath/check-with-osv-detector@test
+#        with:
+#          flags: >-
+#            --version
+#
+#  test-version-alt:
+#    runs-on: macos-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#      - name: action
+#        uses: g-rath/check-with-osv-detector@test
+#        with:
+#          osv-detector-binary: osv-detector_0.5.0_darwin_amd64
+#          flags: >-
+#            --version

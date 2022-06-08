@@ -1,0 +1,12 @@
+name: Test action
+on:
+  push:
+    branches:
+      - 'test'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: action
+        uses: g-rath/check-with-osv-detector@test

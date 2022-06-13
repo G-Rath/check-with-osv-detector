@@ -12,7 +12,10 @@ jobs:
       - name: action
         uses: g-rath/check-with-osv-detector@test
         with:
+          paths: >-
+            package-lock.json
           flags: >-
+            --parse-as package-lock.json
             --ignore GHSA-vh95-rmgr-6w4m
 
 #  test-version:

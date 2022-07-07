@@ -1,5 +1,10 @@
 name: Check with osv-detector
 description: 'Installs and runs osv-detector against the given lockfiles or directories'
+
+branding:
+  icon: 'check-square'
+  color: 'purple'
+
 inputs:
   osv-detector-version:
     description: |

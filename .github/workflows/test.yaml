@@ -27,6 +27,7 @@ jobs:
         with:
           flags: >-
             --version
+      - run: osv-detector --version
 #
 #  test-version-alt:
 #    runs-on: macos-latest

@@ -47,7 +47,7 @@ runs:
       run: |
         mkdir ~/osv-detector && cd ~/osv-detector
         echo "Installing osv-detector v$OSVDETECTOR_VERSION ($OSVDETECTOR_BINARY)"
-        curl -fL https://github.com/G-Rath/osv-detector/releases/download/v$OSVDETECTOR_VERSION/$OSVDETECTOR_BINARY --output osv-detector
+        curl --connect-timeout 5 --max-time 5 --retry-delay 0 --retry-max-time 30 --retry-all-errors -fL https://github.com/G-Rath/osv-detector/releases/download/v$OSVDETECTOR_VERSION/$OSVDETECTOR_BINARY --output osv-detector
         chmod +x osv-detector
         sudo ln -s ~/osv-detector/osv-detector /usr/local/bin/osv-detector
       env:

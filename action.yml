@@ -30,7 +30,12 @@ runs:
       shell: bash
       if: ${{ ! inputs.osv-detector-version }}
       run: |
-        OSVDETECTOR_VERSION=$(curl -s "https://api.github.com/repos/G-Rath/osv-detector/releases/latest" | perl -nle'print substr($&, 1) while m#"tag_name": "\K[^"]*#g')
+        OSVDETECTOR_VERSION=$(
+          curl -s \
+            --header 'authorization: Bearer ${{ github.token }}' \
+            "https://api.github.com/repos/G-Rath/osv-detector/releases/latest" \
+            | perl -nle'print substr($&, 1) while m#"tag_name": "\K[^"]*#g'
+        )
         echo "OSVDETECTOR_VERSION=$OSVDETECTOR_VERSION" >> $GITHUB_ENV
 
     - name: Determine binary
